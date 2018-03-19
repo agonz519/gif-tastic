@@ -1,0 +1,60 @@
+
+var movies = ["The Matrix", "Fight Club", "Princess Mononoke", "BladeRunner 2049", "Interstellar", "Black Panther", "Thor Ragnarok", "Batman Begins", "The Dark Knight", "The Dark Knight Rises", "Serenity"];
+var main = $("body");
+var btns = main.find("#movieButtons");
+
+
+//FOR LOOP TO CREATE BUTTONS FOR MOVIES==================================
+for (var i = 0; i < movies.length; i++) {
+	var movieBtn = $("<button>");
+	movieBtn.addClass("movie-button movie movie-button-color");
+	movieBtn.attr("data-movie", movies[i]);
+	movieBtn.text(movies[i]);
+	btns.append(movieBtn);
+} //=====================================================================
+
+//BUTTON CLICKS & AJAX CALL TO GIPHY API & IMG CREATION=================
+$("button").on("click", function () {
+	var movie = $(this).attr("data-movie");
+	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + movie + "&api_key=bbfAc7Nt5KQyvpe6eD6xsvJkQWPhauAV&limit=10";
+
+	$.ajax({
+		url: queryURL,
+		method: "GET"
+	}).then(function (response) {
+		console.log(response);
+		var results = response.data;
+		for (var i = 0; i < results.length; i++) {
+			var gifDiv = $("<div class='item'>");
+			var rating = results[i].rating;
+			var p = $("<p>").text("Rating: " + rating);
+			var movieImage = $("<img>");
+			movieImage.addClass("gif");
+			movieImage.attr("src", results[i].images.fixed_height_still.url);
+			movieImage.attr("data-still", results[i].images.fixed_height_still.url);
+			movieImage.attr("data-animate", results[i].images.fixed_height.url);
+			movieImage.attr("data-state", "still");
+
+			gifDiv.prepend(p);
+			gifDiv.prepend(movieImage);
+
+			$("#gifs-appear-here").prepend(gifDiv);
+		}
+	});
+}); //===================================================================
+
+//ANIMATE GIFS WHEN CLICKING ON THEM=======================================
+$(".gif").on("click", function () {
+	alert("You clicked me!");
+	var state = $(this).attr("data-state");
+	if (state === "still") {
+		var animatedUrl = $(this).attr("data-animate");
+		$(this).attr("src", animatedUrl);
+		$(this).attr("data-state", "animate");
+	} else if (state === "animate") {
+		var stillUrl = $(this).attr("data-still");
+		$(this).attr("src", stillUrl);
+		$(this).attr("data-state", "still");
+	}
+}); //===================================================================
+
