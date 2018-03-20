@@ -1,13 +1,17 @@
 
-var movies = ["The Matrix", "Fight Club", "Princess Mononoke", "BladeRunner 2049", "Interstellar", "Black Panther", "Thor Ragnarok", "Batman Begins", "The Dark Knight", "The Dark Knight Rises", "Serenity"];
+var movies = ["The Matrix", "Fight Club", "Princess Mononoke", "BladeRunner 2049", "Interstellar", "Black Panther", "Thor Ragnarok", "Batman Begins", "The Dark Knight", "Serenity", "The Dark Knight Rises", "300"];
 var main = $("body");
 var btns = main.find("#movieButtons");
+var favImage;
+
+
+
 
 
 //FOR LOOP TO CREATE BUTTONS FOR MOVIES==================================
 function createButtons() {
 	for (var i = 0; i < movies.length; i++) {
-		var movieBtn = $("<button>");
+		var movieBtn = $("<button type='button' class='btn btn-outline-dark'>");
 		movieBtn.addClass("movie-button movie movie-button-color");
 		movieBtn.attr("data-movie", movies[i]);
 		movieBtn.text(movies[i]);
@@ -31,7 +35,9 @@ function ajaxCall() {
 			for (var i = 0; i < results.length; i++) {
 				var gifDiv = $("<div class='item'>");
 				var rating = results[i].rating;
-				var p = $("<p>").text("Rating: " + rating);
+				var p = $("<h5>").text("Rating: " + rating);
+				var downloadBtn = $("<button type='button' class='btn btn-outline-dark download'>").text("Download");
+				var favoritesBtn = $("<button type='button' class='btn btn-outline-dark favorites' data-fav-status='false'>").text("Favorite");
 				var movieImage = $("<img>");
 				movieImage.addClass("gif");
 				movieImage.attr("src", results[i].images.fixed_height_still.url);
@@ -39,8 +45,12 @@ function ajaxCall() {
 				movieImage.attr("data-animate", results[i].images.fixed_height.url);
 				movieImage.attr("data-state", "still");
 
-				gifDiv.prepend(p);
+				gifDiv.prepend("<br><br>");
+				gifDiv.prepend(favoritesBtn);
+				gifDiv.prepend(downloadBtn);
+				gifDiv.prepend("<br>");
 				gifDiv.prepend(movieImage);
+				gifDiv.prepend(p);
 
 				$("#gifs-appear-here").prepend(gifDiv);
 			}
@@ -64,6 +74,29 @@ $(document).on("click", ".gif", function () {
 		$(this).attr("data-state", "still");
 	}
 }); //====================================================================
+
+//ADD GIFS TO FAVORITES===================================================
+$(document).on("click", ".favorites", function () {
+	var state = $(this).attr("data-fav-status");
+	if (state === "false") {
+		$(this).text("Remove");
+		$(this).attr("data-fav-status", "true");
+		favImage = $(this).prev().prev().prev().clone();
+		console.log(favImage);
+		console.log(favImage[0].dataset.animate)
+		var newFav = localStorage.setItem('favoriteGif' + favImage[0].src, favImage[0].dataset.animate);
+		$('#favs-appear-here').append(favImage);
+	} else if (state === "true") {
+		$(this).text("Favorite");
+		$(this).attr("data-fav-status", "false");
+	}
+}); //====================================================================
+
+for (var i = 0; i < localStorage.length; i++){
+	$('#favs-appear-here').append("<img src='" + localStorage.getItem(localStorage.key(i)) + "'>");
+	$('#favs-appear-here').append("<br>");
+}
+
 
 //TAKE USER INPUT AND ADD A NEW BUTTON TO THE TOP=========================
 $("#addMovie").on("click", function(event) {

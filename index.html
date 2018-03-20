@@ -9,24 +9,50 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<!-- My CSS! -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<title>GifTastic!</title>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:900i" rel="stylesheet">
+	<title>Gif-tastic!</title>
 </head>
 <body>
 
-	<div id="movieButtons">
+<div class="jumbotron jumbotron-fluid">
 
+	<div class="row">
+		<div class="col-8 dottedBottom">
+			<h1 class="display-2">GIF-TASTIC!</h1>
+			<span class="lead">All your favorite movie gifs in one place! Ok? Gosh...</span><br>
+		</div>
+		<div class="col-4"></div>
 	</div>
 
-	<form id="movie-form">
-		<label for="movie-input">Add a movie</label>
-		<input type="text" id="movie-input"><br>
 
-		<input id="addMovie" type="submit" value="Submit">
-	</form>
+</div>
 
-	<div id="gifs-appear-here">
 
+<div class="row">
+	<div class="col-8">
+		<div id="movieButtons">
+
+		</div>
+		<br>
+		<form id="movie-form">
+			<label for="movie-input">&nbsp;&nbsp;Add a Movie</label>
+			<input type="text" id="movie-input"><br>
+
+			&nbsp;&nbsp;<input id="addMovie" class="btn btn-dark" type="submit" value="Add to the List">
+		</form>
+		<br>
+		<div id="gifs-appear-here">
+
+		</div>
 	</div>
+	<div class="col-4">
+		<h3 class="text-center">FAVORITES</h3>
+		<div id="favs-appear-here" class="text-center"></div>
+	</div>
+</div>
+
+
+
 
 <!-- jQuery Library -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
