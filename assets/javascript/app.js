@@ -1,12 +1,12 @@
 
-var movies = ["The Matrix", "Fight Club", "Princess Mononoke", "BladeRunner 2049", "Interstellar", "Black Panther", "Thor Ragnarok", "Batman Begins", "The Dark Knight", "Serenity", "The Dark Knight Rises", "300"];
+var movies = ["The Matrix", "Fight Club", "Princess Mononoke", "BladeRunner 2049", "Interstellar", "Black Panther", "Thor Ragnarok", "Batman Begins", "The Dark Knight", "Serenity", "Star Wars", "The Dark Knight Rises", "300"];
 var main = $("body");
 var btns = main.find("#movieButtons");
 var favImage;
 
 
 
-
+movies.sort();
 
 //FOR LOOP TO CREATE BUTTONS FOR MOVIES==================================
 function createButtons() {
@@ -101,10 +101,13 @@ for (var i = 0; i < localStorage.length; i++){
 //TAKE USER INPUT AND ADD A NEW BUTTON TO THE TOP=========================
 $("#addMovie").on("click", function(event) {
 	event.preventDefault();
-	var newMovie = $("#movie-input").val();
-	movies.push(newMovie);
+	var newMovie = $("#movie-input").val().trim();
 	$("#movie-form").trigger("reset");
-	btns.empty();
-	createButtons();
-	ajaxCall();
+	if (newMovie ==! "" || (movies.includes(newMovie) === false)) {
+		movies.push(newMovie);
+		movies.sort();
+		btns.empty();
+		createButtons();
+		ajaxCall();
+	}
 });
