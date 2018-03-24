@@ -22,6 +22,7 @@ function createButtons() {
 //BUTTON CLICKS & AJAX CALL TO GIPHY API & IMG CREATION==================
 function ajaxCall() {
 	$("button").on("click", function () {
+		event.preventDefault();
 		$("#gifs-appear-here").empty();
 		var movie = $(this).attr("data-movie");
 		var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + movie + "&api_key=bbfAc7Nt5KQyvpe6eD6xsvJkQWPhauAV&limit=10";
